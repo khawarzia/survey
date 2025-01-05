@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+            <title>Building Survey - Home</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">     
+        </head>
+        <body>
+            <br>
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="card-head">
+                            <h3>Survey</h3>
+                        </div>
+                        <div class="card border-0">
+                            <form id="prop-form" method="post">{% csrf_token %}
+                                <select class="form-control" id="look" name="look" onchange="renderOnType(this.value);" required>
+                                    <option selected disabled>Looking for?</option>
+                                    <option value="1">Renting</option>
+                                    <option value="2">Buying</option>
+                                </select><br>
+
+                                <input class="form-control" type="text" id="name" name="name" placeholder="Enter your name" required><br>
+
+                                <input class="form-control" type="text" id="phone" name="phone" maxlength="10" placeholder="Enter your phone number" required><br>
+
+                                <textarea class="form-control" id="comments" name="comments" placeholder="Enter comments" rows="3" required></textarea><br>
+
+                                <select class="form-control" id="typeof" name="typeof" onchange="showOtherProp(this.value)" required>
+                                    <option selected disabled>Select type of property</option>
+                                    <option value="1">Land</option>
+                                    <option value="2">Apartment</option>
+                                    <option value="3">House</option>
+                                    <option value="4">Floor</option>
+                                    <option value="5">Studio</option>
+                                    <option value="6">Store</option>
+                                    <option value="x">None</option>
+                                </select><br>
+
+                                <input class="form-control" type="text" id="otherprop" name="otherprop" placeholder="Enter type of property" style="display:none;"><br id="otherpropbr" style="display:none;">
+
+                                <input class="form-control" type="text" id="dist" name="dist" placeholder="Enter favorite district" required><br>
+
+                                <select class="form-control" id="purpose" name="purpose" style="display: none;">
+                                    <option selected disabled>Select purpose of renting</option>
+                                    <option value="1">Family</option>
+                                    <option value="2">Bachelor</option>
+                                </select><br>
+
+                                <button class="btn btn-primary" type="submit">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function renderOnType(sel){
+                    if (sel == "1"){
+                        document.getElementById('purpose').style = "";
+                        document.getElementById('purpose').setAttribute("required","required");
+                    }
+                    else{
+                        document.getElementById('purpose').style = "display:none;";
+                        document.getElementById('purpose').removeAttribute("required");
+                    }
+                }
+
+                function showOtherProp(sel){
+                    if (sel == "x"){
+                        document.getElementById("otherprop").style = "";
+                        document.getElementById('otherprop').setAttribute("required","required");
+                        document.getElementById("otherpropbr").style = "";
+                    }
+                    else{
+                        document.getElementById("otherprop").style = "display:none;";
+                        document.getElementById('otherprop').removeAttribute("required");
+                        document.getElementById("otherpropbr").style = "display:none;";
+                    }
+                }
+
+            </script>
+
+        </body>
+
+    </html>
