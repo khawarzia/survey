@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+            <title>Building Survey - Admin</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
+            <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>    
+            <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+        
+            <style>
+                .dt-center {
+                    text-align: center;
+                    width: 9% !important;
+                }
+                .dt-center-comments {
+                    text-align: center;
+                    width: 46% !important;
+                }
+                .dataTables_wrapper {
+                    width:95%; 
+                    margin: 0 auto;
+                }
+                .dataTables_wrapper table.dataTable tbody tr {
+                    height: auto;
+                }
+            </style>
+
+        </head>
+        <body>
+            <br>
+            <center>
+                <a href="/"><-back</a>
+                <h3>All Form Submissions</h3>
+            </center>
+
+                <table class="table table-striped table-bordered" id="tab1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th><select id="form-type-sel">
+                                    <option value="" selected disabled>All</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="property-type-sel">
+                                    <option value="" selected disabled>All</option>
+                                </select>
+                            </th>
+                            <th></th>
+                            <th>
+                                <select id="renting-sel">
+                                    <option value="" selected disabled>All</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Looking For</th>
+                            <th>Property</th>
+                            <th>Favorite District</th>
+                            <th>Renting Reason</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                            <tr>
+                                <td>{{i.submission_date}}</td>
+                                <td>{{i.name}}</td>
+                                <td>{{i.phone_number}}</td>
+                                <td class="formTypeOptions">{{i.getFormType}}</td>
+                                <td class="propertyTypeOptions">{{i.getPropertyType}}{% if i.property_type == "2" %}<br><a style="font-size: x-small;" href="#">{{i.getApartmentType}}</a>{% endif %}</td>
+                                <td>{{i.fav_district}}</td>
+                                <td class="puposeTypes">{% if i.purpose %}{{i.getPurpose}}{% else %}-{% endif %}</td>
+                                <td>{{i.comments}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+
+            <script>
+                $(document).ready(function (){
+                    options1 = '<option value="" selected>All</option>';
+                    opts1 = []
+                    temp1 = document.getElementsByClassName("formTypeOptions");
+                    if (temp1.length > 0){
+                        for (i=0 ; i<temp1.length ; i++){
+                            if (opts1.indexOf(temp1[i].innerText) == -1){
+                                opts1.push(temp1[i].innerText);
+                                options1 = options1 + '<option value="'+temp1[i].innerText+'">'+temp1[i].innerText+'</option>';
+                            }
+                        }
+                    }
+                    document.getElementById("form-type-sel").innerHTML = options1;
+
+                    options2 = '<option value="" selected>All</option>';
+                    opts2 = []
+                    temp2 = document.getElementsByClassName("propertyTypeOptions");
+                    if (temp2.length > 0){
+                        for (i=0 ; i<temp2.length ; i++){
+                            if (opts2.indexOf(temp2[i].innerText) == -1){
+                                opts2.push(temp2[i].innerText);
+                                options2 = options2 + '<option value="'+temp2[i].innerText+'">'+temp2[i].innerText+'</option>';
+                            }
+                        }
+                    }
+                    document.getElementById("property-type-sel").innerHTML = options2;
+
+                    options3 = '<option value="" selected>All</option>';
+                    opts3 = []
+                    temp3 = document.getElementsByClassName("puposeTypes");
+                    if (temp3.length > 0){
+                        for (i=0 ; i<temp3.length ; i++){
+                            if (opts3.indexOf(temp3[i].innerText) == -1){
+                                opts3.push(temp3[i].innerText);
+                                options3 = options3 + '<option value="'+temp3[i].innerText+'">'+temp3[i].innerText+'</option>';
+                            }
+                        }
+                    }
+                    document.getElementById("renting-sel").innerHTML = options3;
+
+                    table = $('#tab1').DataTable({
+                        columnDefs: [{
+                            targets: [0, 1, 2, 3, 4, 5, 6], 
+                            className: 'dt-center' 
+                        },{
+                            targets: [7], 
+                            className: 'dt-center-comments' 
+                        }],
+                        autoWidth: false,
+                    });
+
+                    $('#form-type-sel').on('change', function () {
+                        table.column(3).search(this.value).draw();
+                    });
+
+                    $('#property-type-sel').on('change', function () {
+                        table.column(4).search(this.value).draw();
+                    });
+
+                    $('#renting-sel').on('change', function () {
+                        table.column(6).search(this.value).draw();
+                    });
+                });
+            </script>
+
+        </body>
+
+    </html>

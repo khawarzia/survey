@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>बिल्डिंग सर्वेक्षण - मुख्य पृष्ठ</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">     
+    </head>
+    <body>
+        <br>
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card-head">
+                        <h3>सर्वेक्षण</h3>
+                    </div>
+                    <div class="card border-0">
+                        <form id="prop-form" method="post">{% csrf_token %}
+                            <select class="form-control" id="look" name="look" onchange="renderOnType(this.value);" required>
+                                <option value="" selected disabled>क्या खोज रहे हैं?</option>
+                                <option value="1">किराए पर लेना</option>
+                                <option value="2">खरीदना</option>
+                            </select><br>
+
+                            <input class="form-control" type="text" id="name" name="name" placeholder="अपना नाम दर्ज करें" required maxlength="50"><br>
+
+                            <input class="form-control" type="text" id="phone" name="phone" maxlength="10" placeholder="अपना फ़ोन नंबर दर्ज करें" required><br>
+
+                            <textarea class="form-control" id="comments" name="comments" placeholder="टिप्पणियाँ दर्ज करें" rows="3" required maxlength="500"></textarea><br>
+
+                            <select class="form-control" id="typeof" name="typeof" onchange="showOtherProp(this.value)" required>
+                                <option value="" selected disabled>प्रॉपर्टी का प्रकार चुनें</option>
+                                <option value="1">जमीन</option>
+                                <option value="2">अपार्टमेंट</option>
+                                <option value="3">मकान</option>
+                                <option value="4">मंज़िल</option>
+                                <option value="5">स्टूडियो</option>
+                                <option value="6">दुकान</option>
+                                <option value="x">अन्य</option>
+                            </select><br>
+
+                            <select class="form-control" id="size" name="size" style="display: none;">
+                                <option value="" selected disabled>अपार्टमेंट का आकार चुनें</option>
+                                <option value="1">2 बेडरूम</option>
+                                <option value="2">2 बेडरूम + 1 लिविंग रूम</option>
+                                <option value="3">3 बेडरूम + 1 लिविंग रूम</option>
+                                <option value="4">विकल्पों के लिए खुला</option>
+                            </select><br id="sizebr" style="display: none;">
+
+                            <input class="form-control" type="text" id="otherprop" name="otherprop" maxlength="20" placeholder="प्रॉपर्टी का प्रकार दर्ज करें" style="display:none;"><br id="otherpropbr" style="display:none;">
+
+                            <input class="form-control" type="text" id="dist" name="dist" maxlength="40" placeholder="पसंदीदा क्षेत्र दर्ज करें" required><br>
+
+                            <select class="form-control" id="purpose" name="purpose" style="display: none;">
+                                <option value="" selected disabled>किराए का उद्देश्य चुनें</option>
+                                <option value="1">परिवार</option>
+                                <option value="2">बैचलर</option>
+                            </select><br>
+
+                            <button class="btn btn-primary" type="submit">
+                                सबमिट करें
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function renderOnType(sel){
+                if (sel == "1"){
+                    document.getElementById('purpose').style = "";
+                    document.getElementById('purpose').setAttribute("required","required");
+                }
+                else{
+                    document.getElementById('purpose').style = "display:none;";
+                    document.getElementById('purpose').removeAttribute("required");
+                }
+            }
+
+            function showOtherProp(sel){
+                if (sel == "x"){
+                    document.getElementById("otherprop").style = "";
+                    document.getElementById('otherprop').setAttribute("required","required");
+                    document.getElementById("otherpropbr").style = "";
+                }
+                else{
+                    document.getElementById("otherprop").style = "display:none;";
+                    document.getElementById('otherprop').removeAttribute("required");
+                    document.getElementById("otherpropbr").style = "display:none;";
+                }
+                if (sel == "2"){
+                    document.getElementById("size").style = "";
+                    document.getElementById('size').setAttribute("required","required");
+                    document.getElementById("sizebr").style = "";
+                }
+                else{
+                    document.getElementById("size").style = "display:none;";
+                    document.getElementById('size').removeAttribute("required");
+                    document.getElementById("sizebr").style = "display:none;";
+                }
+            }
+
+        </script>
+
+    </body>
+
+</html>

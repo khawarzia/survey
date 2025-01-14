@@ -17,39 +17,48 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-sm-12">
                         <div class="card-head">
+                            <a href="/"><-back</a>
                             <h3>Survey</h3>
                         </div>
                         <div class="card border-0">
                             <form id="prop-form" method="post">{% csrf_token %}
                                 <select class="form-control" id="look" name="look" onchange="renderOnType(this.value);" required>
-                                    <option selected disabled>Looking for?</option>
+                                    <option value="" selected disabled>Looking for?</option>
                                     <option value="1">Renting</option>
                                     <option value="2">Buying</option>
                                 </select><br>
 
-                                <input class="form-control" type="text" id="name" name="name" placeholder="Enter your name" required><br>
+                                <input class="form-control" type="text" id="name" name="name" placeholder="Enter your name" required maxlength="50"><br>
 
                                 <input class="form-control" type="text" id="phone" name="phone" maxlength="10" placeholder="Enter your phone number" required><br>
 
-                                <textarea class="form-control" id="comments" name="comments" placeholder="Enter comments" rows="3" required></textarea><br>
+                                <textarea class="form-control" id="comments" name="comments" placeholder="Enter comments" rows="3" required maxlength="500"></textarea><br>
 
                                 <select class="form-control" id="typeof" name="typeof" onchange="showOtherProp(this.value)" required>
-                                    <option selected disabled>Select type of property</option>
+                                    <option value="" selected disabled>Select type of property</option>
                                     <option value="1">Land</option>
                                     <option value="2">Apartment</option>
                                     <option value="3">House</option>
                                     <option value="4">Floor</option>
                                     <option value="5">Studio</option>
                                     <option value="6">Store</option>
-                                    <option value="x">None</option>
+                                    <option value="x">Other</option>
                                 </select><br>
 
-                                <input class="form-control" type="text" id="otherprop" name="otherprop" placeholder="Enter type of property" style="display:none;"><br id="otherpropbr" style="display:none;">
+                                <select class="form-control" id="size" name="size" style="display: none;">
+                                    <option value="" selected disabled>Select apartment size</option>
+                                    <option value="1">2 Bedrooms</option>
+                                    <option value="2">2 Bedrooms + 1 Living Room</option>
+                                    <option value="3">3 Bedrooms + 1 Living Room</option>
+                                    <option value="4">Open to options</option>
+                                </select><br id="sizebr" style="display: none;">
 
-                                <input class="form-control" type="text" id="dist" name="dist" placeholder="Enter favorite district" required><br>
+                                <input class="form-control" type="text" id="otherprop" name="otherprop" maxlength="20" placeholder="Enter type of property" style="display:none;"><br id="otherpropbr" style="display:none;">
+
+                                <input class="form-control" type="text" id="dist" name="dist" maxlength="40" placeholder="Enter favorite district" required><br>
 
                                 <select class="form-control" id="purpose" name="purpose" style="display: none;">
-                                    <option selected disabled>Select purpose of renting</option>
+                                    <option value="" selected disabled>Select purpose of renting</option>
                                     <option value="1">Family</option>
                                     <option value="2">Bachelor</option>
                                 </select><br>
@@ -85,6 +94,16 @@
                         document.getElementById("otherprop").style = "display:none;";
                         document.getElementById('otherprop').removeAttribute("required");
                         document.getElementById("otherpropbr").style = "display:none;";
+                    }
+                    if (sel == "2"){
+                        document.getElementById("size").style = "";
+                        document.getElementById('size').setAttribute("required","required");
+                        document.getElementById("sizebr").style = "";
+                    }
+                    else{
+                        document.getElementById("size").style = "display:none;";
+                        document.getElementById('size').removeAttribute("required");
+                        document.getElementById("sizebr").style = "display:none;";
                     }
                 }
 

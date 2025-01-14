@@ -1,26 +1,14 @@
-"""
-URL configuration for mysitenew project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-from myapp.views import *
+from newapp.views import *
 
 urlpatterns = [
     path('admin-old/', admin.site.urls),
-    path('admin/', admin_page),
+    path('admin/', admin_login_page),
+    path('admin-page/', admin_page),
     path('', main_page),
     path('form-page/<int:lang>', form_page),
+    path('success/<int:lang>', success_page),
+
+    path('api/v1/get-all-data/<str:key>', api_call)
 ]
